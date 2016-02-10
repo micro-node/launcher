@@ -22,6 +22,6 @@ if(!addr){
   process.exit();
 }
 
-fork(__dirname+'/../lib/worker.js', [path, addr]);
+fork(__dirname+'/../build/worker.js', [path, addr]);
 
 

@@ -1,12 +1,13 @@
 {
   "name": "micro-node-launcher",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A micro-node microservice launcher",
   "main": "build/index.js",
   "bin": {
     "micro": "bin/micro"
   },
   "scripts": {
+    "pretest": "npm run build",
     "test": "mocha",
     "lint": "eslint lib/*.js",
     "build": "babel -d ./build/ ./lib/",
