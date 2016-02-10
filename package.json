@@ -1,8 +1,11 @@
 {
   "name": "micro-node-launcher",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A micro-node microservice launcher",
-  "main": "index.js",
+  "main": "build/index.js",
+  "bin": {
+    "micro": "bin/micro"
+  },
   "scripts": {
     "test": "mocha",
     "lint": "eslint lib/*.js",
@@ -40,7 +43,7 @@
     "mocha": "^2.3.4"
   },
   "dependencies": {
-    "async": "^1.5.2",
+    "colors": "^1.1.2",
     "lodash": "^3.10.1",
     "micro-node-amqp": "^1.0.6",
     "micro-node-json-rpc": "^1.0.4"

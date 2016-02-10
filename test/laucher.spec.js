@@ -1,15 +1,17 @@
-var assert = require('assert');
-var path = require('path');
 var amqp = require('micro-node-amqp');
-
 var cp = require('child_process');
+var assert = require('assert');
 
 var children = [];
 
 // helper functions
 function server(cb){
 
-  children.push(cp.fork(__dirname + '/services/service.js').on('message', cb));
+  var child = cp.exec(__dirname+'/../bin/micro   '+__dirname + '/services/fibonacci/index.js 127.0.0.1');
+
+  children.push(child);
+
+  cb();
 }
 
 process.on('exit', function(){

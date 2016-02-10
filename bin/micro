@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var colors = require('colors');
+var fork = require('child_process').fork;
+
+process.title = 'micro';
+
+var path = process.argv[2];
+var addr = process.argv[3];
+
+if(!path){
+
+  console.log(colors.red('Path is not defined'));
+  process.exit();
+}
+
+if(!addr){
+
+  console.log(colors.red('Address is not defined.'));
+  process.exit();
+}
+
+fork(__dirname+'/../lib/worker.js', [path, addr]);
+
+
