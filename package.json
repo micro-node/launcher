@@ -1,6 +1,6 @@
 {
   "name": "micro-node-launcher",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A micro-node microservice launcher",
   "main": "build/index.js",
   "bin": {
