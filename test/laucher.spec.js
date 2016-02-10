@@ -47,6 +47,8 @@ describe('Service Launcher', function() {
 
   it('should retrun defintion', function(done){
 
+    this.timeout(5000);
+
     var req = {
 
       jsonrpc: '2.0',
