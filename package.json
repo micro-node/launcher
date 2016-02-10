@@ -1,7 +1,7 @@
 {
   "name": "micro-node-launcher",
   "version": "0.1.2",
-  "description": "A micro-node microservice launcher",
+  "description": "A microservice launcher based on AMQP",
   "main": "build/index.js",
   "bin": {
     "micro": "bin/micro"
