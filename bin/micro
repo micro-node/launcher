@@ -2,6 +2,7 @@
 
 'use strict';
 
+var resolve = require('path').resolve;
 var colors = require('colors');
 var fork = require('child_process').fork;
 
@@ -22,6 +23,6 @@ if(!addr){
   process.exit();
 }
 
-fork(__dirname+'/../build/worker.js', [path, addr]);
+fork(__dirname+'/../build/worker.js', [resolve(path), addr]);
 
 
