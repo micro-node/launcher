@@ -10,7 +10,6 @@ function server(cb){
   var child = cp.exec(__dirname+'/../bin/micro   '+__dirname + '/services/fibonacci/index.js 127.0.0.1');
 
   children.push(child);
-
   cb();
 }
 
@@ -45,9 +44,9 @@ describe('Service Launcher', function() {
     });
   })
 
-  it('should retrun defintion', function(done){
+  it('should return defintion', function(done){
 
-    this.timeout(5000);
+    this.timeout(10000);
 
     var req = {
 
