@@ -21,7 +21,7 @@ module.exports.parrot = function(a, cb){
 
 var launch = require('micro-node-launcher');
 
-launch('./my_module.js', '127.0.0.1'); // listening on 127.0.0.1 for rpc calls
+launch('./my_module.js', 'rpc_queue', '127.0.0.1'); // listening on 127.0.0.1 for rpc calls
 
 ```
 
@@ -30,13 +30,13 @@ launch('./my_module.js', '127.0.0.1'); // listening on 127.0.0.1 for rpc calls
 After installing the `micro-node-launcher` locally or globally
 
 ```
-micro my_module.js 127.0.0.1
+micro my_module.js rpc_queue 127.0.0.1
 
 ```
 
 ## How
 
-The exported function is used internally to respond to `JSON-RPC 2.0` messages coming to an AMPQ Queue called `rpc_queue`.
+The exported function is used internally to respond to `JSON-RPC 2.0` messages coming to an AMPQ Queue.
 This laucher should be used with the `micro-node-client`.
 
 ## Requirement
