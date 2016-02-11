@@ -7,7 +7,7 @@ var children = [];
 // helper functions
 function server(cb){
 
-  var child = cp.exec(__dirname+'/../bin/micro   '+__dirname + '/services/fibonacci/index.js 127.0.0.1');
+  var child = cp.exec(__dirname+'/../bin/micro   '+__dirname + '/services/fibonacci/index.js rpc_queue 127.0.0.1');
 
   children.push(child);
   cb();
@@ -21,9 +21,11 @@ process.on('exit', function(){
   })
 })
 
-var client = amqp.client('127.0.0.1');
+var client = amqp.client('127.0.0.1', 'rpc_queue');
 
 describe('Service Launcher', function() {
+
+  this.timeout(10000);
 
   before(server);
 
@@ -45,8 +47,6 @@ describe('Service Launcher', function() {
   })
 
   it('should return defintion', function(done){
-
-    this.timeout(10000);
 
     var req = {
 

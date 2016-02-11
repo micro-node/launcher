@@ -9,7 +9,8 @@ var fork = require('child_process').fork;
 process.title = 'micro';
 
 var path = process.argv[2];
-var addr = process.argv[3];
+var queue = process.argv[3];
+var addr = process.argv[4] || '127.0.0.1';
 
 if(!path){
 
@@ -17,12 +18,14 @@ if(!path){
   process.exit();
 }
 
-if(!addr){
+if(!queue){
 
-  console.log(colors.red('Address is not defined.'));
+  console.log(colors.red('Queue is not defined.'));
   process.exit();
 }
 
-fork(__dirname+'/../build/worker.js', [resolve(path), addr]);
+
+console.log(colors.green('launching '+ path +' with queue '+ queue + ' on '+ addr));
+fork(__dirname+'/../build/worker.js', [resolve(path), queue, addr]);
 
 
