@@ -26,6 +26,6 @@ if(!queue){
 
 
 console.log(colors.green('launching '+ path +' with queue '+ queue + ' on '+ addr));
-fork(__dirname+'/../build/worker.js', [resolve(path), queue, addr]);
 
+var child = fork(__dirname+'/../build/worker.js', [resolve(path), queue, addr], {stdio: 'inherit'});
 

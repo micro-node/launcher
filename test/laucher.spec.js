@@ -1,15 +1,24 @@
 var amqp = require('micro-node-amqp');
+var rpc = require('micro-node-json-rpc');
 var cp = require('child_process');
 var assert = require('assert');
+var uuid = require('node-uuid');
+var resolve = require('path').resolve;
+
+var launcher = require('../build/index')
 
 var children = [];
+
+var service;
 
 // helper functions
 function server(cb){
 
-  var child = cp.exec(__dirname+'/../bin/micro   '+__dirname + '/services/fibonacci/index.js rpc_queue 127.0.0.1');
-
+  var child = cp.exec('npm run micro');
   children.push(child);
+
+  //service = launcher(resolve(__dirname, 'services/fibonacci/index.js'), 'rpc_queue');
+
   cb();
 }
 
@@ -29,20 +38,53 @@ describe('Service Launcher', function() {
 
   before(server);
 
-  it('should launch a service', function(done){
+  it('should respond for methods', function(done){
 
     var req = {
 
       jsonrpc: '2.0',
       method: 'fast',
-      id: 1,
+      id: uuid.v4(),
       params: [40]
     };
 
-    client(req, function(err, result){
+    client(req, function(resp){
 
-      assert.equal(result, 102334155);
-      done(err);
+      assert.equal(resp.result, 102334155);
+      done();
+    });
+  })
+
+  it('should respond for values', function(done){
+
+    var req = {
+
+      jsonrpc: '2.0',
+      id: uuid.v4(),
+      method: 'pi'
+    };
+
+    client(req, function(resp){
+
+      assert.equal(resp.result, Math.PI);
+      done();
+    });
+  })
+
+  it('should respond for deep methods', function(done){
+
+    var req = {
+
+      jsonrpc: '2.0',
+      method: 'deep.fast',
+      id: uuid.v4(),
+      params: [40]
+    };
+
+    client(req, function(resp){
+
+      assert.equal(resp.result, 102334155);
+      done();
     });
   })
 
@@ -51,42 +93,16 @@ describe('Service Launcher', function() {
     var req = {
 
       jsonrpc: '2.0',
-      method: '$definition',
-      id: 2,
+      id: uuid.v4(),
+      method: rpc.DEFINITIONMETHOD,
       params: []
     };
 
-    var defintion = {
-      "methods": {
-        "$definition": {
-            "name": "$definition",
-            "params": [
-                "cb"
-              ]
-          },
-        "fast": {
-            "name": "fast",
-            "params": [
-                "n",
-                "callback"
-              ]
-          },
-        "slow": {
-            "name": "slow",
-            "params": [
-                "n",
-                "callback"
-              ]
-          }
-      },
-      "type": "multi-method"
-    };
+    client(req, function(resp){
 
-
-    client(req, function(err, result){
-
-      assert.deepEqual(result, defintion);
-      done(err);
+      assert(resp.result.fast.type, rpc.FUNCTIONTYPE);
+      assert(resp.result.pi.type, rpc.VALUETYPE);
+      done();
     });
   })
 });

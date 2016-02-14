@@ -1,6 +1,6 @@
 {
   "name": "micro-node-launcher",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A microservice launcher based on AMQP",
   "main": "build/index.js",
   "bin": {
@@ -11,7 +11,8 @@
     "test": "DEBUG=amqp mocha",
     "lint": "eslint lib/*.js",
     "build": "babel -d ./build/ ./lib/",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "micro": "./bin/micro ./test/services/fibonacci/index.js rpc_queue 127.0.0.1"
   },
   "config": {
     "ghooks": {
@@ -41,12 +42,13 @@
     "babel-register": "^6.5.1",
     "eslint": "^1.10.3",
     "ghooks": "^1.0.1",
-    "mocha": "^2.3.4"
+    "mocha": "^2.3.4",
+    "node-uuid": "^1.4.7"
   },
   "dependencies": {
     "colors": "^1.1.2",
     "lodash": "^3.10.1",
-    "micro-node-amqp": "^1.1.0",
-    "micro-node-json-rpc": "^1.0.4"
+    "micro-node-amqp": "^1.1.4",
+    "micro-node-json-rpc": "^1.1.0"
   }
 }
