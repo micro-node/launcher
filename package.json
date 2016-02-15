@@ -1,6 +1,6 @@
 {
   "name": "micro-node-launcher",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A microservice launcher based on AMQP",
   "main": "build/index.js",
   "bin": {
@@ -48,7 +48,7 @@
   "dependencies": {
     "colors": "^1.1.2",
     "lodash": "^3.10.1",
-    "micro-node-amqp": "^1.1.4",
+    "micro-node-amqp": "^1.1.6",
     "micro-node-json-rpc": "^1.1.0"
   }
 }

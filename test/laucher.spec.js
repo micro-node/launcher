@@ -48,10 +48,12 @@ describe('Service Launcher', function() {
       params: [40]
     };
 
-    client(req, function(resp){
+    client(req, function(err, resp){
 
-      assert.equal(resp.result, 102334155);
-      done();
+      console.log(err);
+
+      assert.equal(resp, 102334155);
+      done(err);
     });
   })
 
@@ -64,10 +66,12 @@ describe('Service Launcher', function() {
       method: 'pi'
     };
 
-    client(req, function(resp){
+    client(req, function(err, resp){
 
-      assert.equal(resp.result, Math.PI);
-      done();
+      console.log(err);
+
+      assert.equal(resp, Math.PI);
+      done(err);
     });
   })
 
@@ -81,10 +85,12 @@ describe('Service Launcher', function() {
       params: [40]
     };
 
-    client(req, function(resp){
+    client(req, function(err, resp){
 
-      assert.equal(resp.result, 102334155);
-      done();
+      console.log(err);
+
+      assert.equal(resp, 102334155);
+      done(err);
     });
   })
 
@@ -98,11 +104,13 @@ describe('Service Launcher', function() {
       params: []
     };
 
-    client(req, function(resp){
+    client(req, function(err, resp){
 
-      assert(resp.result.fast.type, rpc.FUNCTIONTYPE);
-      assert(resp.result.pi.type, rpc.VALUETYPE);
-      done();
+      console.log(err);
+
+      assert(resp.fast.type, rpc.FUNCTIONTYPE);
+      assert(resp.pi.type, rpc.VALUETYPE);
+      done(err);
     });
   })
 });
