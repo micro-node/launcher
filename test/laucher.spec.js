@@ -15,11 +15,10 @@ var service;
 function server(cb){
 
   var child = cp.exec('npm run micro');
+
   children.push(child);
 
-  //service = launcher(resolve(__dirname, 'services/fibonacci/index.js'), 'rpc_queue');
-
-  cb();
+  setTimeout(cb, 3000);
 }
 
 process.on('exit', function(){
