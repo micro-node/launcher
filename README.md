@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/micro-node/launcher.svg)](http://travis-ci.org/micro-node/launcher)
+[![Dependency Status](https://david-dm.org/micro-node/launcher.svg)](https://david-dm.org/micro-node/launcher)
+[![devDependency Status](https://david-dm.org/micro-node/launcher/dev-status.svg)](https://david-dm.org/micro-node/launcher#info=devDependencies)
 # micro-node-launcher
 
 This is the heart of micronode. This module can start any `node-module` as a micro-service with an `AMQP JSON-RPC 2.0` communication layer.
