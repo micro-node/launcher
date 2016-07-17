@@ -4,7 +4,7 @@
   "description": "A microservice launcher based on AMQP",
   "main": "build/index.js",
   "bin": {
-    "micro": "bin/micro"
+    "micro": "bin/micro.js"
   },
   "scripts": {
     "pretest": "npm run build",
@@ -14,7 +14,7 @@
     "lint": "eslint lib/*.js",
     "build": "babel -d ./build/ ./lib/",
     "prepublish": "npm run build",
-    "micro": "DEBUG=amqp ./bin/micro ./test/services/fibonacci/index.js rpc_queue 127.0.0.1"
+    "micro": "./bin/micro.js -f ./test/services/fibonacci/index.js -q rpc_queue -a 127.0.0.1 --verbose"
   },
   "config": {
     "ghooks": {
@@ -23,6 +23,9 @@
       "post-merge": "npm install",
       "post-rewrite": "npm install"
     }
+  },
+  "micro-node": {
+    "amqp": "172.0.0.1"
   },
   "repository": {
     "type": "git",
@@ -53,6 +56,7 @@
   "dependencies": {
     "colors": "^1.1.2",
     "lodash": "^4.3.0",
+    "meow": "^3.7.0",
     "micro-node-amqp": "^1.1.6",
     "micro-node-json-rpc": "^1.1.0"
   }

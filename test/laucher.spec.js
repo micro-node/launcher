@@ -1,20 +1,15 @@
-var amqp = require('micro-node-amqp');
-var rpc = require('micro-node-json-rpc');
-var cp = require('child_process');
-var assert = require('assert');
-var uuid = require('node-uuid');
-var resolve = require('path').resolve;
+const amqp = require('micro-node-amqp');
+const rpc = require('micro-node-json-rpc');
+const cp = require('child_process');
+const assert = require('assert');
+const uuid = require('node-uuid');
 
-var launcher = require('../build/index')
-
-var children = [];
-
-var service;
+const children = [];
 
 // helper functions
 function server(cb){
 
-  var child = cp.exec('npm run micro');
+  const child = cp.exec('npm run micro');
 
   children.push(child);
 
@@ -29,7 +24,7 @@ process.on('exit', function(){
   })
 })
 
-var client = amqp.client('127.0.0.1', 'rpc_queue');
+const client = amqp.client('127.0.0.1', 'rpc_queue');
 
 describe('Service Launcher', function() {
 
@@ -39,7 +34,7 @@ describe('Service Launcher', function() {
 
   it('should respond for methods', function(done){
 
-    var req = {
+    const req = {
 
       jsonrpc: '2.0',
       method: 'fast',
@@ -58,7 +53,7 @@ describe('Service Launcher', function() {
 
   it('should respond for values', function(done){
 
-    var req = {
+    const req = {
 
       jsonrpc: '2.0',
       id: uuid.v4(),
@@ -76,7 +71,7 @@ describe('Service Launcher', function() {
 
   it('should respond for deep methods', function(done){
 
-    var req = {
+    const req = {
 
       jsonrpc: '2.0',
       method: 'deep.fast',
@@ -95,7 +90,7 @@ describe('Service Launcher', function() {
 
   it('should return defintion', function(done){
 
-    var req = {
+    const req = {
 
       jsonrpc: '2.0',
       id: uuid.v4(),
