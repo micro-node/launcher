@@ -14,7 +14,8 @@
     "lint": "eslint lib/*.js",
     "build": "babel -d ./build/ ./lib/",
     "prepublish": "npm run build",
-    "micro": "./bin/micro.js -f ./test/services/fibonacci/index.js -q rpc_queue -a 127.0.0.1 --verbose"
+    "micro": "./bin/micro.js -f ./test/services/fibonacci/index.js -q rpc_queue -a 127.0.0.1 --verbose",
+    "micro-pkg": "./bin/micro.js ./test/services/fibonacci --verbose"
   },
   "config": {
     "ghooks": {
@@ -23,9 +24,6 @@
       "post-merge": "npm install",
       "post-rewrite": "npm install"
     }
-  },
-  "micro-node": {
-    "amqp": "172.0.0.1"
   },
   "repository": {
     "type": "git",
@@ -51,7 +49,8 @@
     "istanbul": "^0.4.2",
     "mocha": "^2.3.4",
     "mocha-lcov-reporter": "^1.0.0",
-    "node-uuid": "^1.4.7"
+    "node-uuid": "^1.4.7",
+    "fkill": "^4.0.0"
   },
   "dependencies": {
     "colors": "^1.1.2",

@@ -1,19 +1,23 @@
 #!/usr/bin/env node
 'use strict';
 
+process.title = 'micro';
+
 const resolve = require('path').resolve;
 const colors = require('colors');
-const fork = require('child_process').fork;
 const meow = require('meow');
-
-process.title = 'micro';
+const start = require(resolve(__dirname, '../build/index.js'));
 
 const defaultOpts = { addr: '127.0.0.1'};
 
+var opts = {};
+
+// define cli
 const cli = meow(`
     
     Usage
-      $ micro -file <service-file> -queue <amqp-queue> -addr <amqp-address>
+      $ micro -file <service file> -queue <amqp queue> -addr <amqp address>
+      $ micro ./ <path to directory with package.json>
 
     Options
       --verbose, -v logs the communication data  
@@ -29,23 +33,70 @@ const cli = meow(`
   }
 });
 
-const opts = Object.assign({}, defaultOpts, cli.flags);
+// read package.json
+if(cli.input.length){
 
+  const path = resolve(cli.input[0]);
+  const pkgPath = resolve(path, 'package.json');
+
+  try {
+
+    const pkg = require(pkgPath);
+    const microOpts = pkg['micro-node'];
+
+    if(microOpts.file){
+
+      microOpts.file = resolve(path, microOpts.file);
+    }
+
+    opts = Object.assign(opts, {queue: pkg.name}, microOpts);
+
+  }catch(e){
+
+    error(`no package.json found on ${path}`);
+    process.exit();
+  }
+}
+
+opts = Object.assign({}, defaultOpts, opts, cli.flags);
+
+// required options
 ['file', 'queue'].forEach((prop) =>{
 
-  if(! opts[prop]){
+  if(!opts[prop]){
 
-    console.log(colors.red(prop +' is not defined'));
+    error(prop +' is not defined');
     process.exit();
   }
 })
 
+// verbose
 if(opts.verbose){
 
   process.env.DEBUG = 'amqp';
 }
 
-console.log(colors.green(`launching ${opts.file} with queue ${opts.queue} on ${opts.addr}`));
+log(`starting ${opts.file} with queue ${opts.queue} on ${opts.addr}`);
 
-fork(__dirname+'/../build/worker.js', [resolve(opts.file), opts.queue, opts.addr], {stdio: 'inherit'});
+// start the service
+const service = start(opts.file, opts.queue, opts.addr);
+
+// on exit close
+process.on('exit', service.close);
+
+
+// helper functions
+
+function log(){
+
+  console.log(colors.green.apply(arguments));
+}
+
+function error(){
+
+  console.log(colors.apply(arguments));
+}
+
+
+
 

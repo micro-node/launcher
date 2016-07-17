@@ -3,28 +3,35 @@ const rpc = require('micro-node-json-rpc');
 const cp = require('child_process');
 const assert = require('assert');
 const uuid = require('node-uuid');
+const fkill = require('fkill');
 
 const children = [];
 
 // helper functions
 function server(cb){
 
-  const child = cp.exec('npm run micro');
+  const child = cp.exec('npm run micro-pkg', (error, stdout, stderr) => {
+
+    if (error) {
+
+      console.error(`exec error: ${error}`);
+      return;
+    };
+  });
 
   children.push(child);
 
   setTimeout(cb, 3000);
 }
 
-process.on('exit', function(){
+function killAll(){
 
-  children.forEach(function(child){
+  children.forEach((child) => fkill(child.pid));
+}
 
-    child.kill();
-  })
-})
+process.on('exit', killAll);
 
-const client = amqp.client('127.0.0.1', 'rpc_queue');
+const client = amqp.client('127.0.0.1', 'fib');
 
 describe('Service Launcher', function() {
 
@@ -107,4 +114,6 @@ describe('Service Launcher', function() {
       done(err);
     });
   })
+
+  after(killAll)
 });
